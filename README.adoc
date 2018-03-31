@@ -1,0 +1,71 @@
+= Journey Manager
+:author: Hafid Haddouti
+
+Journey Manager - manage your journeys.
+
+This project serves as show case project for the following points
+
+* education
+* evaluation of architecture concepts
+* verify the efficiency of documentation as code
+* showcasing multiple concepts and technologies
+
+
+= Overview
+tbd
+
+== Requirements Overview
+
+. Requirements
+|===
+| Requirement | Description | Status 
+
+| Manage journeys 
+| Manages the journeys for a given use 
+| WIP
+
+| Enhance journey with routes 
+| Expand an existing journey with additional information representing a route between two points from the current journey. A journey could contains multiple (alternatives) routes 
+| Open
+|===
+
+= Architecture Overview
+See the ArchiMate project.
+
+== Outline
+tbd
+
+== Technical Constraints
+
+. Technical constraints
+|===
+| ID | Constraint | Description
+
+| T01
+| Implementation in Java
+| Base technology is Java 8 with corresponding frameworks
+
+| T02
+| Avoid vendor lock
+| Avoid a specific vendor lock with to deep integration of frameworks. If necessary use dependency inversion or similar.
+
+| T03
+|
+|
+|===
+
+== General Constraints
+
+. General constraints
+|===
+| ID | Constraint | Description
+
+| G01
+| Architecture documentation
+| Use "documentation as code" as far as possible
+
+| G02
+|
+|
+|===
+
