@@ -1,0 +1,6 @@
+# Journey Manager Core
+# application.yml
+
+# ### General
+server:
+   port: 9021

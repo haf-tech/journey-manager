@@ -1,0 +1,12 @@
+*target*
+*.jar
+*.war
+*.ear
+*.class
+
+# eclipse specific git ignore
+.project
+.metadata
+*.bak
+.classpath
+.settings/

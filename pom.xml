@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.haddouti.journey-manager</groupId>
+	<artifactId>journey-manager</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Journey Manager</name>
+	<description>Journey Manager - manages any journeys with all the segments and the detailed information.</description>
+
+	<url>https://github.com/haf-tech/journey-manager</url>
+	<inceptionYear>2018</inceptionYear>
+	<organization>
+		<name>haddouti.com</name>
+		<url>http://haddouti.com</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Hafid Haddouti</name>
+			<email>code@haddouti.com</email>
+		</developer>
+	</developers>
+	
+	
+	<modules>
+		<module>journey-manager-spring-parent</module>
+	</modules>
+</project>
