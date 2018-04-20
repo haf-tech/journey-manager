@@ -21,7 +21,11 @@ tbd
 | Requirement | Description | Status 
 
 | Manage journeys 
-| Manages the journeys for a given use 
+| Manages the journeys for a given user 
+| WIP
+
+| Integrate multiple route calculation provider
+| Use a abstract route calculation layer and integrate multiple route provider like: HERE, Google, DB.
 | WIP
 
 | Enhance journey with routes 
@@ -50,8 +54,8 @@ tbd
 | Avoid a specific vendor lock with to deep integration of frameworks. If necessary use dependency inversion or similar.
 
 | T03
-|
-|
+| Resiliency of connections to backend systems
+| The connection to consuming (backend) systems should be resilient using the following concepts: timeout, bulkhead pattern, Circuit Breaker (Anti corruption layers)
 |===
 
 == General Constraints
@@ -67,5 +71,28 @@ tbd
 | G02
 |
 |
+|===
+
+= Tech Stack
+
+. List of tech stack components
+|===
+| Name | Description | Integrated?
+
+| Spring Boot
+| Spring Boot
+| YES
+
+| Swagger
+| For REST documentation
+| YES
+
+| GraphQL
+| Provide a flexible mechanism to storage and retrieve different set of data
+| Open
+
+| Docker
+| 
+| Open
 |===
 
