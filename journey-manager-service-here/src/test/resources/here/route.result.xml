@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rtcr:CalculateRoute
+	xmlns:rtcr="http://www.navteq.com/lbsp/Routing-CalculateRoute/4">
+	<Response>
+		<MetaInfo>
+			<Timestamp>2018-04-04T19:18:26Z</Timestamp>
+			<MapVersion>8.30.82.150</MapVersion>
+			<ModuleVersion>7.2.201813-17751</ModuleVersion>
+			<InterfaceVersion>2.6.34</InterfaceVersion>
+			<AvailableMapVersion>8.30.82.150</AvailableMapVersion>
+		</MetaInfo>
+		<Route>
+			<Waypoint>
+				<LinkId>+77272157</LinkId>
+				<MappedPosition>
+					<Latitude>52.5147986</Latitude>
+					<Longitude>13.4647751</Longitude>
+				</MappedPosition>
+				<OriginalPosition>
+					<Latitude>52.5148</Latitude>
+					<Longitude>13.4647799</Longitude>
+				</OriginalPosition>
+				<Type>stopOver</Type>
+				<Spot>0.0</Spot>
+				<SideOfStreet>neither</SideOfStreet>
+				<MappedRoadName>Frankfurter Allee</MappedRoadName>
+				<Label>Frankfurter Allee - B1</Label>
+				<ShapeIndex>0</ShapeIndex>
+			</Waypoint>
+			<Waypoint>
+				<LinkId>-1199850991</LinkId>
+				<MappedPosition>
+					<Latitude>52.4871483</Latitude>
+					<Longitude>13.4246252</Longitude>
+				</MappedPosition>
+				<OriginalPosition>
+					<Latitude>52.4871499</Latitude>
+					<Longitude>13.42462</Longitude>
+				</OriginalPosition>
+				<Type>stopOver</Type>
+				<Spot>0.2881356</Spot>
+				<SideOfStreet>neither</SideOfStreet>
+				<MappedRoadName>Hermannplatz</MappedRoadName>
+				<Label>Hermannplatz</Label>
+				<ShapeIndex>89</ShapeIndex>
+			</Waypoint>
+			<Mode>
+				<Type>fastest</Type>
+				<TransportModes>car</TransportModes>
+				<TrafficMode>disabled</TrafficMode>
+			</Mode>
+			<Leg>
+				<Start>
+					<LinkId>+77272157</LinkId>
+					<MappedPosition>
+						<Latitude>52.5147986</Latitude>
+						<Longitude>13.4647751</Longitude>
+					</MappedPosition>
+					<OriginalPosition>
+						<Latitude>52.5148</Latitude>
+						<Longitude>13.4647799</Longitude>
+					</OriginalPosition>
+					<Type>stopOver</Type>
+					<Spot>0.0</Spot>
+					<SideOfStreet>neither</SideOfStreet>
+					<MappedRoadName>Frankfurter Allee</MappedRoadName>
+					<Label>Frankfurter Allee - B1</Label>
+					<ShapeIndex>0</ShapeIndex>
+				</Start>
+				<End>
+					<LinkId>-1199850991</LinkId>
+					<MappedPosition>
+						<Latitude>52.4871483</Latitude>
+						<Longitude>13.4246252</Longitude>
+					</MappedPosition>
+					<OriginalPosition>
+						<Latitude>52.4871499</Latitude>
+						<Longitude>13.42462</Longitude>
+					</OriginalPosition>
+					<Type>stopOver</Type>
+					<Spot>0.2881356</Spot>
+					<SideOfStreet>neither</SideOfStreet>
+					<MappedRoadName>Hermannplatz</MappedRoadName>
+					<Label>Hermannplatz</Label>
+					<ShapeIndex>89</ShapeIndex>
+				</End>
+				<Length>5871</Length>
+				<TravelTime>749</TravelTime>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M1"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.5147986</Latitude>
+						<Longitude>13.4647751</Longitude>
+					</Position>
+					<Instruction>Head toward &lt;span
+						class=&quot;toward_street&quot;&gt;Samariterstraße&lt;/span&gt; on
+						&lt;span class=&quot;street&quot;&gt;Frankfurter
+						Allee&lt;/span&gt; &lt;span
+						class=&quot;number&quot;&gt;(B1/B5)&lt;/span&gt;. &lt;span
+						class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;727 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>69</TravelTime>
+					<Length>727</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M2"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.5158501</Latitude>
+						<Longitude>13.4541857</Longitude>
+					</Position>
+					<Instruction>Turn &lt;span
+						class=&quot;direction&quot;&gt;left&lt;/span&gt; onto &lt;span
+						class=&quot;next-street&quot;&gt;Frankfurter Tor&lt;/span&gt;
+						&lt;span class=&quot;number&quot;&gt;(B96A)&lt;/span&gt; toward
+						&lt;span class=&quot;sign&quot;&gt;&lt;span
+						lang=&quot;de&quot;&gt;Treptow&lt;/span&gt;/&lt;span
+						lang=&quot;de&quot;&gt;Flughafen Schönefeld&lt;/span&gt;/&lt;span
+						lang=&quot;de&quot;&gt;O2 World&lt;/span&gt;&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;1.6 km&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>197</TravelTime>
+					<Length>1580</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M3"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.5026858</Latitude>
+						<Longitude>13.4468043</Longitude>
+					</Position>
+					<Instruction>Continue on &lt;span
+						class=&quot;next-street&quot;&gt;Am Oberbaum&lt;/span&gt; toward
+						&lt;span class=&quot;sign&quot;&gt;&lt;span
+						lang=&quot;de&quot;&gt;Kreuzberg&lt;/span&gt;&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;37 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>4</TravelTime>
+					<Length>37</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M4"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.5024283</Latitude>
+						<Longitude>13.446461</Longitude>
+					</Position>
+					<Instruction>Continue on &lt;span
+						class=&quot;next-street&quot;&gt;Oberbaumbrücke&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;162 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>15</TravelTime>
+					<Length>162</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M5"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.5012589</Latitude>
+						<Longitude>13.445034</Longitude>
+					</Position>
+					<Instruction>Continue on &lt;span
+						class=&quot;next-street&quot;&gt;Oberbaumstraße&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;242 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>43</TravelTime>
+					<Length>242</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M6"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.5012159</Latitude>
+						<Longitude>13.4417295</Longitude>
+					</Position>
+					<Instruction>Continue on &lt;span
+						class=&quot;next-street&quot;&gt;Skalitzer Straße&lt;/span&gt;
+						toward &lt;span class=&quot;sign&quot;&gt;&lt;span
+						lang=&quot;de&quot;&gt;Tiergarten&lt;/span&gt;&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;1.6 km&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>243</TravelTime>
+					<Length>1600</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M7"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.499156</Latitude>
+						<Longitude>13.4186947</Longitude>
+					</Position>
+					<Instruction>Take the &lt;span class=&quot;exit&quot;&gt;4th
+						exit&lt;/span&gt; from Kottbusser Tor roundabout onto &lt;span
+						class=&quot;next-street&quot;&gt;Kottbusser Straße&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;420 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>71</TravelTime>
+					<Length>420</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M8"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.496388</Latitude>
+						<Longitude>13.4197354</Longitude>
+					</Position>
+					<Instruction>Continue on &lt;span
+						class=&quot;next-street&quot;&gt;Kottbusser Brücke&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;92 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>9</TravelTime>
+					<Length>92</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M9"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.4956369</Latitude>
+						<Longitude>13.4203041</Longitude>
+					</Position>
+					<Instruction>Continue on &lt;span
+						class=&quot;next-street&quot;&gt;Kottbusser Damm&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;912 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>87</TravelTime>
+					<Length>912</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M10"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.4879766</Latitude>
+						<Longitude>13.4250998</Longitude>
+					</Position>
+					<Instruction>Turn &lt;span class=&quot;direction&quot;&gt;slightly
+						right&lt;/span&gt; onto &lt;span
+						class=&quot;next-street&quot;&gt;Hermannplatz&lt;/span&gt;.
+						&lt;span class=&quot;distance-description&quot;&gt;Go for &lt;span
+						class=&quot;length&quot;&gt;99 m&lt;/span&gt;.&lt;/span&gt;
+					</Instruction>
+					<TravelTime>11</TravelTime>
+					<Length>99</Length>
+				</Maneuver>
+				<Maneuver xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="M11"
+					xsi:type="rtc:PrivateTransportManeuverType">
+					<Position>
+						<Latitude>52.4871483</Latitude>
+						<Longitude>13.4246252</Longitude>
+					</Position>
+					<Instruction>Arrive at &lt;span
+						class=&quot;street&quot;&gt;Hermannplatz&lt;/span&gt;.
+					</Instruction>
+					<TravelTime>0</TravelTime>
+					<Length>0</Length>
+				</Maneuver>
+			</Leg>
+			<Summary xmlns:rtc="http://www.navteq.com/lbsp/Routing-Common/4"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="rtc:RouteSummaryType">
+				<Distance>5871</Distance>
+				<TrafficTime>882</TrafficTime>
+				<BaseTime>749</BaseTime>
+				<Flags>builtUpArea</Flags>
+				<Flags>park</Flags>
+				<Text>The trip takes &lt;span class=&quot;length&quot;&gt;5.9
+					km&lt;/span&gt; and &lt;span class=&quot;time&quot;&gt;12
+					mins&lt;/span&gt;.</Text>
+				<TravelTime>749</TravelTime>
+			</Summary>
+		</Route>
+		<Language>en-us</Language>
+	</Response>
+</rtcr:CalculateRoute>

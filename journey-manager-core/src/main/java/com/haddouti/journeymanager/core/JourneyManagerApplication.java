@@ -24,23 +24,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 public class JourneyManagerApplication {
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SpringApplication.run(JourneyManagerApplication.class, args);
 	}
 
 	@Bean
 	public Docket swaggerApiConfig() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage(RestJourney.class.getPackage().getName()))
+		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage(RestJourney.class.getPackage().getName()))
 				.paths(PathSelectors.any()).build().apiInfo(swaggerMetaData());
 	}
 
 	private ApiInfo swaggerMetaData() {
 
-		Collection<VendorExtension> vendors = new ArrayList<>();
-		ApiInfo apiInfo = new ApiInfo("Journey Manager", "Journey Manager Core", "1.0", "Terms of service",
-				new Contact("Hafid Haddouti", "https://github.com/haf-tech/", "code@haddouti.com"),
-				"Apache License Version 2.0", "https://www.apache.org/licenses/LICENSE-2.0", vendors);
+		final Collection<VendorExtension> vendors = new ArrayList<>();
+		final ApiInfo apiInfo = new ApiInfo("Journey Manager", "Journey Manager Core", "1.0", "Terms of service",
+				new Contact("Hafid Haddouti", "https://github.com/haf-tech/", "code@haddouti.com"), "Apache License Version 2.0",
+				"https://www.apache.org/licenses/LICENSE-2.0", vendors);
 		return apiInfo;
 	}
 }

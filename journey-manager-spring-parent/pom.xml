@@ -6,6 +6,7 @@
 		<groupId>com.haddouti.journey-manager</groupId>
 		<artifactId>journey-manager</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>journey-manager-spring-parent</artifactId>
@@ -124,5 +125,7 @@
 
 	<modules>
 		<module>../journey-manager-core</module>
+		<module>../journey-manager-service-google</module>
+		<module>../journey-manager-service-here</module>
 	</modules>
 </project>

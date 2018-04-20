@@ -1,0 +1,10 @@
+# JourneyManagerHere
+# application.yml
+
+# ### General
+server:
+   port: 9031
+   
+spring:
+  application:
+    name: JourneyManager HERE Services

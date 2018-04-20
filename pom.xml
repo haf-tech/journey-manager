@@ -29,8 +29,8 @@
 			<email>code@haddouti.com</email>
 		</developer>
 	</developers>
-	
-	
+
+
 	<modules>
 		<module>journey-manager-spring-parent</module>
 	</modules>

@@ -1,0 +1,121 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.haddouti.journey-manager</groupId>
+		<artifactId>journey-manager-spring-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../journey-manager-spring-parent/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>journey-manager-service-here</artifactId>
+
+	<name>Journey Manager: HERE Services</name>
+	<description>Use the HERE API to provide the Journey Manager SPI</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+
+		<jm.spi.version>0.0.1-SNAPSHOT</jm.spi.version>
+
+		<jaxb2-basics.version>1.11.1</jaxb2-basics.version>
+		<jaxb2-maven.version>2.3.1</jaxb2-maven.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.haddouti.journey-manager</groupId>
+				<artifactId>journey-manager-service-api</artifactId>
+				<version>${jm.spi.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- ####### Internal ####### -->
+		<dependency>
+			<groupId>com.haddouti.journey-manager</groupId>
+			<artifactId>journey-manager-service-api</artifactId>
+		</dependency>
+
+		<!-- Jaxb2: For helper logic -->
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb2-basics</artifactId>
+			<version>1.11.1</version>
+		</dependency>
+
+		<!-- ####### Apache ###### -->
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>${jaxb2-maven.version}</version>
+				<executions>
+					<execution>
+						<id>xjc-schema1</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<extension>true</extension>
+					<sources>
+						<source>${project.basedir}/src/main/resources/xsd/here</source>
+					</sources>
+					<xjcSourceExcludeFilters>
+						<filter
+							implementation="org.codehaus.mojo.jaxb2.shared.filters.pattern.PatternFileFilter">
+							<patterns>
+								<pattern>\.xjb</pattern>
+							</patterns>
+						</filter>
+					</xjcSourceExcludeFilters>
+					<xjbSources>
+						<xjbSource>${project.basedir}/src/main/resources/xsd/here/RoutingCommon.xjb</xjbSource>
+					</xjbSources>
+					<outputDirectory>${project.build.directory}/generated-sources/here</outputDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<!-- <source>${project.build.directory}/generated-sources/here/common</source> 
+									<source>${project.build.directory}/generated-sources/here/route</source> 
+									<source>${project.build.directory}/generated-sources/here/geocoder</source> -->
+								<source>${project.build.directory}/generated-sources/here</source>
+							</sources>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

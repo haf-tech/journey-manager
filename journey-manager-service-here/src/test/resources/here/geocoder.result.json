@@ -1,0 +1,305 @@
+{
+	"Response": {
+		"MetaInfo": {
+			"Timestamp": "2018-04-02T19:17:08.177+0000"
+		},
+		"View": [
+			{
+				"_type": "SearchResultsViewType",
+				"ViewId": 0,
+				"Result": [
+					{
+						"Relevance": 0.96,
+						"MatchLevel": "street",
+						"MatchQuality": {
+							"City": 1.0,
+							"Street": [
+								0.97
+							]
+						},
+						"Location": {
+							"LocationId": "NT_k-g33Y1qE7YcwOi2McgfQC",
+							"LocationType": "point",
+							"DisplayPosition": {
+								"Latitude": 52.5148,
+								"Longitude": 13.46478
+							},
+							"NavigationPosition": [
+								{
+									"Latitude": 52.5148,
+									"Longitude": 13.46478
+								}
+							],
+							"MapView": {
+								"TopLeft": {
+									"Latitude": 52.5162199,
+									"Longitude": 13.45407
+								},
+								"BottomRight": {
+									"Latitude": 52.51358,
+									"Longitude": 13.4754
+								}
+							},
+							"Address": {
+								"Label": "Frankfurter Allee, 10247 Berlin, Deutschland",
+								"Country": "DEU",
+								"State": "Berlin",
+								"County": "Berlin",
+								"City": "Berlin",
+								"District": "Friedrichshain",
+								"Street": "Frankfurter Allee",
+								"PostalCode": "10247",
+								"AdditionalData": [
+									{
+										"value": "Deutschland",
+										"key": "CountryName"
+									},
+									{
+										"value": "Berlin",
+										"key": "StateName"
+									},
+									{
+										"value": "Berlin",
+										"key": "CountyName"
+									}
+								]
+							}
+						}
+					},
+					{
+						"Relevance": 0.96,
+						"MatchLevel": "street",
+						"MatchQuality": {
+							"City": 1.0,
+							"Street": [
+								0.97
+							]
+						},
+						"Location": {
+							"LocationId": "NT_PGtsd5kMCebEdpYhp4VcbA",
+							"LocationType": "point",
+							"DisplayPosition": {
+								"Latitude": 52.51241,
+								"Longitude": 13.48819
+							},
+							"NavigationPosition": [
+								{
+									"Latitude": 52.51241,
+									"Longitude": 13.48819
+								}
+							],
+							"MapView": {
+								"TopLeft": {
+									"Latitude": 52.51355,
+									"Longitude": 13.47658
+								},
+								"BottomRight": {
+									"Latitude": 52.51122,
+									"Longitude": 13.49936
+								}
+							},
+							"Address": {
+								"Label": "Frankfurter Allee, 10365 Berlin, Deutschland",
+								"Country": "DEU",
+								"State": "Berlin",
+								"County": "Berlin",
+								"City": "Berlin",
+								"District": "Lichtenberg",
+								"Street": "Frankfurter Allee",
+								"PostalCode": "10365",
+								"AdditionalData": [
+									{
+										"value": "Deutschland",
+										"key": "CountryName"
+									},
+									{
+										"value": "Berlin",
+										"key": "StateName"
+									},
+									{
+										"value": "Berlin",
+										"key": "CountyName"
+									}
+								]
+							}
+						}
+					},
+					{
+						"Relevance": 0.96,
+						"MatchLevel": "street",
+						"MatchQuality": {
+							"City": 1.0,
+							"Street": [
+								0.97
+							]
+						},
+						"Location": {
+							"LocationId": "NT_YcENJSyR26K4NWVA1XRfWA",
+							"LocationType": "point",
+							"DisplayPosition": {
+								"Latitude": 52.5109,
+								"Longitude": 13.50197
+							},
+							"NavigationPosition": [
+								{
+									"Latitude": 52.5109,
+									"Longitude": 13.50197
+								}
+							],
+							"MapView": {
+								"TopLeft": {
+									"Latitude": 52.51133,
+									"Longitude": 13.49919
+								},
+								"BottomRight": {
+									"Latitude": 52.51057,
+									"Longitude": 13.50488
+								}
+							},
+							"Address": {
+								"Label": "Frankfurter Allee, 10317 Berlin, Deutschland",
+								"Country": "DEU",
+								"State": "Berlin",
+								"County": "Berlin",
+								"City": "Berlin",
+								"District": "Rummelsburg",
+								"Street": "Frankfurter Allee",
+								"PostalCode": "10317",
+								"AdditionalData": [
+									{
+										"value": "Deutschland",
+										"key": "CountryName"
+									},
+									{
+										"value": "Berlin",
+										"key": "StateName"
+									},
+									{
+										"value": "Berlin",
+										"key": "CountyName"
+									}
+								]
+							}
+						}
+					},
+					{
+						"Relevance": 0.96,
+						"MatchLevel": "street",
+						"MatchQuality": {
+							"City": 1.0,
+							"Street": [
+								0.97
+							]
+						},
+						"Location": {
+							"LocationId": "NT_QUnsIGxKWdTr.15K-QKUBD",
+							"LocationType": "point",
+							"DisplayPosition": {
+								"Latitude": 52.51363,
+								"Longitude": 13.4762
+							},
+							"NavigationPosition": [
+								{
+									"Latitude": 52.51363,
+									"Longitude": 13.4762
+								}
+							],
+							"MapView": {
+								"TopLeft": {
+									"Latitude": 52.51371,
+									"Longitude": 13.47537
+								},
+								"BottomRight": {
+									"Latitude": 52.51355,
+									"Longitude": 13.47703
+								}
+							},
+							"Address": {
+								"Label": "Frankfurter Allee, 10365 Berlin, Deutschland",
+								"Country": "DEU",
+								"State": "Berlin",
+								"County": "Berlin",
+								"City": "Berlin",
+								"District": "Friedrichshain",
+								"Street": "Frankfurter Allee",
+								"PostalCode": "10365",
+								"AdditionalData": [
+									{
+										"value": "Deutschland",
+										"key": "CountryName"
+									},
+									{
+										"value": "Berlin",
+										"key": "StateName"
+									},
+									{
+										"value": "Berlin",
+										"key": "CountyName"
+									}
+								]
+							}
+						}
+					},
+					{
+						"Relevance": 0.96,
+						"MatchLevel": "street",
+						"MatchQuality": {
+							"City": 1.0,
+							"Street": [
+								0.97
+							]
+						},
+						"Location": {
+							"LocationId": "NT_Hiz6s9NEZCKIRE04Y5fGzA",
+							"LocationType": "point",
+							"DisplayPosition": {
+								"Latitude": 52.51362,
+								"Longitude": 13.48032
+							},
+							"NavigationPosition": [
+								{
+									"Latitude": 52.51362,
+									"Longitude": 13.48032
+								}
+							],
+							"MapView": {
+								"TopLeft": {
+									"Latitude": 52.51367,
+									"Longitude": 13.47962
+								},
+								"BottomRight": {
+									"Latitude": 52.51358,
+									"Longitude": 13.481
+								}
+							},
+							"Address": {
+								"Label": "Frankfurter Allee, 10367 Berlin, Deutschland",
+								"Country": "DEU",
+								"State": "Berlin",
+								"County": "Berlin",
+								"City": "Berlin",
+								"District": "Lichtenberg",
+								"Street": "Frankfurter Allee",
+								"PostalCode": "10367",
+								"AdditionalData": [
+									{
+										"value": "Deutschland",
+										"key": "CountryName"
+									},
+									{
+										"value": "Berlin",
+										"key": "StateName"
+									},
+									{
+										"value": "Berlin",
+										"key": "CountyName"
+									}
+								]
+							}
+						}
+					}
+				]
+			}
+		]
+	}
+}

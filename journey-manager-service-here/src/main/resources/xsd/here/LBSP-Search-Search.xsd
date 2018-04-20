@@ -1,0 +1,1364 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSpy v2010 rel. 
+	2 (http://www.altova.com) by Masanori Fujita (Navteq B.V.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.navteq.com/lbsp/Search-Search/4" xmlns:common="http://www.navteq.com/lbsp/Common/4"
+	xmlns:search-common="http://www.navteq.com/lbsp/Search-Common/4"
+	targetNamespace="http://www.navteq.com/lbsp/Search-Search/4" version="4.3">
+	<xs:import namespace="http://www.navteq.com/lbsp/Common/4"
+		schemaLocation="LBSP-Common.xsd" />
+	<xs:import namespace="http://www.navteq.com/lbsp/Search-Common/4"
+		schemaLocation="LBSP-Search-Common.xsd" />
+	<xs:complexType name="SearchRequestType">
+		<xs:annotation>
+			<xs:documentation>Search defines one unified request structure for
+				all search scenarios. However, four different endpoints are provided
+				to optimize search behavior for geocoding, POI search, reverse
+				geocoding or user centric free-form search use cases.Depending on
+				the usage scenario, different parameter sub sets are supported.
+				Please refer to chapter 5 for supported parameter combinations.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SearchText" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Free text input which is dynamically matched
+						against different fields.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MetaInfo" type="SearchRequestMetaInfoType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Request parameters which are not related to the
+						search functionality are kept separately in this element.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RepresentationOptions" type="SearchRepresentationOptionsType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The way the results are represented in the
+						response can also be fine-tuned using this element.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlaceFilter" type="search-common:PlaceFilterType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Holds type information of Places to be searched.
+						The response contains only those places that have matching
+						attributes. (see also PlaceFilterType)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LocationFilter" type="search-common:LocationFilterType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Holds type information of Locations to be
+						searched. The response contains only those locations that have
+						matching attributes. (see also LocationFilterType)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="SpatialFilter" type="common:GeoAreaType">
+					<xs:annotation>
+						<xs:documentation>Filter to limit search results to
+							places/locations which are included within a certain geospatial
+							area. Any sub-type derived from GeoArea (i.e. GeoBoundingBox,
+							GeoProximity, GeoCorridor) is allowed as spatial filter. Note:
+							GeoCorridor is currently not supported.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Quadkey" type="common:QuadkeyType">
+					<xs:annotation>
+						<xs:documentation>Filter to limit search results to
+							places/locations which are included within the tile identified by
+							the quadkey tile. Can be used instead of a GeoBoundingBox typed
+							SpatialFilter. Quadkey based searches can be significantly faster
+							since results can benefit from efficient caching mechanisms.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="ReverseGeocodeSettings" type="ReverseGeocodeSettingsType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Settings which apply to reverse geocoding
+						requests.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalData" type="common:KeyValuePairType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of KeyValuePairType elements as generic
+						container to attach additional information to the request.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="UserContext" type="common:UserContextType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Information about the user's context like his
+						position and the map view he is looking at. The information is
+						used as a soft filter when performing the search.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MinConfidenceLevel" type="ConfidenceLevelType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Lower bound for the confidence level of the
+						search results, e.g. a minimum confidence level of "medium" will
+						only return search results of confidence level "medium" or "high".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchRequestMetaInfoType">
+		<xs:annotation>
+			<xs:documentation>This type is comprised of parameters which are not
+				directly related to search functionality.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RequestId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Clients may pass in arbitrary values to trace
+						request processing through the system. The RequestId will be
+						mirrored in the MetaInfo element of the response structure.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VerboseMode" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Level of verbose information which will be
+						included in the response structure. Can be a value between 0 and
+						5.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Generation" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Evolutions of the API functionality are tagged
+						using a monotonously increasing generation number. A higher
+						generation number encloses all changes of any older generation
+						(unless some functionality is overridden with the latest
+						generation). If no generation number is passed the default number
+						"0" (i.e. the service layout used in the first version of the
+						service release) is applied. It is however recommended to specify
+						the generation parameter as this allows to consider the client
+						implementation's assumptions.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReverseGeocodeSettingsType">
+		<xs:annotation>
+			<xs:documentation>This type is comprised of settings which
+				exclusively apply to reverse geocoding requests.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Mode" type="search-common:ReverseGeocodeModeType">
+				<xs:annotation>
+					<xs:documentation>Switch to select between address searches or area
+						searches.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchRepresentationOptionsType">
+		<xs:annotation>
+			<xs:documentation>This type holds parameters to control the
+				representation of results (such as language of text attributes and
+				the detail level of information to be returned).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Language" type="common:LanguageCodeParameterType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The preferred languages in which
+						internationalized text attributes should be returned in the
+						response. The list is assumed to have descending order. The
+						language code is needs to conform to RFC 4647.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PageInformation" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A key which identifies the page to be returned in
+						a paging scenario. Only relevant, if MaxResults has been specified
+						in a previous request.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaxResults" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The number of items in the response structure can
+						be limited. By specifying MaxResult, paging is activated and
+						results are returned in separate pages. Each response will contain
+						a handle to the next page.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MinResults" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>For requests using a spatial filter the minimal
+						number of items can be specified. If this filter criteria cannot
+						be fulfilled using the original spatial context the context will
+						be stretched until minResults objects can be found. The spatial
+						expansion is however limited to a predefined maximal size.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StrictLanguageMode" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If false, the backend chooses the best available
+						attribute value based on the language priorities given in language
+						and returns them directly in Address, Place, Location, and
+						Category. In this case, the language information get's lost.If
+						true, the service will only include the attribute value directly
+						in Address, Place, Location, and Category if the value is
+						available in the first language specified in language. Values in
+						alternative languages are returned in the associated
+						AlternativeValues objects.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SearchResponseAttributes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Switches to control search response attributes to
+						be returned in the response. If not specified all search response
+						attributes besides the performed search association are included
+						by default, i.e. contains all values besides PerformedSearch and
+						MatchQuality.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:list itemType="SearchResponseAttributeType" />
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PlaceAttributes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Switches to control which place attributes should
+						be returned in the response. If not specified, all place
+						attributes are included by default.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:list itemType="PlaceAttributeType" />
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LocationAttributes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Switches to control which location attributes
+						should be returned in the response. If not specified, all location
+						attributes are included by default.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:list itemType="LocationAttributeType" />
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AddressAttributes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Switches to control which address attributes
+						should be returned in the response. If not specified, all address
+						attributes are included by default.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:list itemType="AddressAttributeType" />
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SortBy" type="SortingCriteriaType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Defines a sorting criteria which will be applied
+						to the search results.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PoliticalView" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Political view that should be applied
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchResponseType">
+		<xs:annotation>
+			<xs:documentation>The SearchResponse structure is the top level
+				element returned by the search service. It contains the search
+				results along with meta information, search paths, and scores.Search
+				results are grouped in views, where two different derived view types
+				exist. SearchSuggestionsViewType is used to reflect auto-completion
+				suggestions. SearchResultsViewType is used if Search analyzes
+				free-form input and potentially makes more than one assumption
+				regarding the user's search intention.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MetaInfo" type="SearchResponseMetaInfoType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Result attributes which are not directly related
+						to the search functionality.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="View" type="SearchResponseViewType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Set of coherent search results. It holds the
+						results of a single search run based on the assumed user's
+						intention.(see also derived types SearchSuggestionsViewType and
+						SearchResultsViewType)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchResponseMetaInfoType">
+		<xs:annotation>
+			<xs:documentation>This type is comprised of attributes which are not
+				particularly related to the search functionality.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RequestId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Mirrored RequestId value from the request
+						structure. Can be used to trace back requests.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Timestamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Time at which the search was performed.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NextPageInformation" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Key which can be used in subsequent requests to
+						acquire the next n results. This element is only provided if
+						paging has been activated in the request.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PreviousPageInformation" type="xs:string"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Key which can be used in subsequent requests to
+						acquire the previous n results. This element is only provided if
+						paging has been activated in the request.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalData" type="common:KeyValuePairType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of KeyValuePairType elements as generic
+						container to attach additional information to the request.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchResponseViewType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Search analyzes free-form input and potentially
+				makes more than one assumption regarding the user's search
+				intention. These assumptions are reflected and returned in the
+				result as objects of type SearchResponseViewType.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ViewId" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>A key to distinguish between different type of
+						views. Currently always set to 0.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Label" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A descriptive label of the view for displaying
+						purposes in the requested primary language.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchSuggestionsViewType">
+		<xs:annotation>
+			<xs:documentation>This is a specialized view type to return only
+				input suggestions back to the application. Is used to provide
+				auto-completion functionality.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="SearchResponseViewType">
+				<xs:sequence>
+					<xs:element name="TypeSuggestion" type="xs:string"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Suggestions how the text which the user is
+								currently typing in could be auto-completed.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchResultsViewType">
+		<xs:annotation>
+			<xs:documentation>This is a specialized view type to return search
+				results back to the application.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="SearchResponseViewType">
+				<xs:sequence>
+					<xs:element name="DidYouMeanSuggestion" type="xs:string"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Suggestions which other interpretations of the
+								user's search intention could also be relevant.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PerformedSearch" type="SearchRequestType"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Search path which was performed for this search
+								run. In case of free-form searches, this element holds
+								structured information, which indicates how user input has been
+								interpreted by Search. The Performed Search has the same
+								structure as a search request and can thus be used to repeat the
+								same search.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Result" type="SearchResultType"
+						minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The resulting alternative items which have been
+								found along with attributes indicating the quality of the search
+								result.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchResultType">
+		<xs:annotation>
+			<xs:documentation>This type holds resulting alternative items which
+				have been found along with attributes indicating the quality of the
+				search result.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Relevance" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Indicates the relevance of the found results, the
+						higher the score the more relevant is the alternative. The score
+						is a normalized value between 0 and 1.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Distance" type="common:DistanceType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Distance between the identified location object
+						and the specified client position in meters.(only provided if a
+						GeoProximity was specified in SearchRequestType.SpatialFilter)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Direction" type="common:HeadingType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Direction of the location object seen from the
+						specified client position measured clockwise in degrees starting
+						with 0 at true north.(only provided if a GeoProximity was
+						specified in SearchRequestType.SpatialFilter)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchLevel" type="search-common:AddressMatchLevelType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The name of the most detailed address field which
+						could be matched.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchQuality" type="LocationMatchQualityType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Detailed information about the match quality on
+						attribute level.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchType" type="search-common:LocationMatchTypeType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates whether the location could be located
+						exactly or an interpolation was applied. (only relevant for
+						geocoding results)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="Place" type="search-common:PlaceType">
+					<xs:annotation>
+						<xs:documentation>The resulting place item which has been found.
+							The result can only have either a place or a location.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Location" type="search-common:LocationType">
+					<xs:annotation>
+						<xs:documentation>The resulting location item which has been
+							found. The result can only have either a place or a location.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="AdditionalData" type="common:KeyValuePairType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of KeyValuePairType elements as generic
+						container to attach additional information to the request.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchCode" type="MatchCodeType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Code indicating how well the result matches the
+						request.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchedNames" type="MatchedAddressNamesType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Names (including the name type and the language)
+						the input has been matched to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ConfidenceLevel" type="ConfidenceLevelType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The level of confidence that the search result is
+						a match.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ParsedRequest" type="ParsedRequestType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Structured representation of the request which
+						led to the current search result.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MatchedAddressNamesType">
+		<xs:sequence>
+			<xs:element name="Country" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name value together with name type and language
+						information the country input was matched to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="State" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name value together with name type and language
+						information the state input was matched to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="County" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name value together with name type and language
+						information the county input was matched to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name value together with name type and language
+						information the city input was matched to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="District" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name value together with name type and language
+						information the district input was matched to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Street" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Name value together with name type and language
+						information the street input was matched to.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParsedRequestType">
+		<xs:annotation>
+			<xs:documentation>Parsed representation of the request.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						name of a place or landmark.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Label" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Assembled address value built out of the parsed
+						address components.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						country part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="State" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						state part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="County" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						county part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						city part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="District" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						district part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Subdistrict" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						subdistrict part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Street" type="xs:string" minOccurs="0"
+				maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						street part of an address (incl. intersections which are defined
+						by two streets).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetDetails" type="ParsedStreetType"
+				minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Detailed parse information regarding the street
+						input token(s).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						housenumber part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						postal code part of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Floor" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						floor designator of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Suite" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						suite designator of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Building" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						building name of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AddressLine" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Formatted address lines built out of the parsed
+						address components. The first line consists of street name
+						(including pre-fix, directionals, street type) and house number.
+						The second line consists of the city name and postal code plus in
+						some countries the state name or abbreviation. These elements will
+						only be populated for at least street level matches, i.e. a city
+						match will not contain address lines.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Position" type="common:GeoCoordinateType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as a
+						coordinate.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalData" type="common:KeyValuePairType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Generic key/value container to keep additional
+						attributes
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>			<!-- CSSDSRCH-10805: Micro Point Addressing -->
+			<xs:element name="Unit" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						unit name of an address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParsedStreetType">
+		<xs:annotation>
+			<xs:documentation>Parsed representation of the street input token(s).
+				This includes detail information about e.g. the base name or the
+				direction part of the input categorized by the address parser.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BaseName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						base name part of the street name. The base name is a numbered
+						route, local name, or commonly accepted name for a street.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						street type part of the street name. Street Type is the local
+						municipality designator of each road, such as "street", "road",
+						"strasse", "straat", "via", or "rue de la". Street Types are
+						defined as either "preceding" or "following" the Base Name and
+						"attached" or "unattached" to the Base Name.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Prefix" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						prefix of the street name. The prefix is a directional identifier
+						that precedes, but is not included in, the base name of a road.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Suffix" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						suffix of the street name. The suffix is a directional identifier
+						that follows, but is not included in, the base name of a road.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Direction" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Input token(s) the parser has categorized as the
+						official directional identifiers assigned to highways, typically
+						either "North/South" or "East/West"
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StreetMatchQualityType">
+		<xs:annotation>
+			<xs:documentation>Type to provide detailed information about the
+				match quality of a result for the different pieces that form the
+				street name.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BaseName" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the base name
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetType" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the street type
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetTypeBefore" type="xs:double"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the street type
+						position (if any). 0.0 indicates that the street type position did
+						not match (after vs. before), 1.0 indicates a correct match.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetTypeAttached" type="xs:double"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the street type
+						attachment (if any). 0.0 indicates that the street type attachment
+						did not match (attached vs. unattached), 1.0 indicates a correct
+						match.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Prefix" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the street
+						prefix input (if any). The match quality is a value between 0.0
+						and 1.0, 1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Suffix" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the street
+						suffix input (if any). The match quality is a value between 0.0
+						and 1.0, 1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Direction" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the street
+						direction input (if any). The match quality is a value between 0.0
+						and 1.0, 1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LocationMatchQualityType">
+		<xs:annotation>
+			<xs:documentation>Type to provide detailed information about the
+				match quality of a result on attribute level.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Country" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the country
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="State" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the state input
+						(if any). The match quality is a value between 0.0 and 1.0, 1.0
+						representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="County" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the county input
+						(if any). The match quality is a value between 0.0 and 1.0, 1.0
+						representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the city input
+						(if any). The match quality is a value between 0.0 and 1.0, 1.0
+						representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="District" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the district
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Subdistrict" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the subdistrict
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Street" type="xs:double" minOccurs="0"
+				maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the street input
+						(if any). The match quality is a value between 0.0 and 1.0, 1.0
+						representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the house number
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalCode" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the postal code
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetDetails" type="StreetMatchQualityType"
+				minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. street input (if
+						any) split into the different street parts.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Building" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the building
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the name input
+						(if any). The match quality is a value between 0.0 and 1.0, 1.0
+						representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>				<!-- CSSDSRCH-10805: Micro Point Addressing -->
+			<xs:element name="Unit" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Match quality of the result wrt. the unit name
+						input (if any). The match quality is a value between 0.0 and 1.0,
+						1.0 representing a 100% match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ConfidenceLevelType">
+		<xs:annotation>
+			<xs:documentation>This is an enumeratioin type which provides
+				identifiers for a coarse granular confidence level classifying the
+				internal assessment of a search result.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="high" />
+			<xs:enumeration value="medium" />
+			<xs:enumeration value="low" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SearchResponseAttributeType">
+		<xs:annotation>
+			<xs:documentation>This is an enumeration type which lists available
+				SearchResponse attribute names (incl. the different
+				SearchResponseViews). They can be used to switch individual
+				attributes on/off in search results.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="performedSearch">
+				<xs:annotation>
+					<xs:documentation>Short value: "ps". Indicates if the performed
+						search information should be returned.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="label">
+				<xs:annotation>
+					<xs:documentation>Short value: "la". Indicates if a label for the
+						SearchResponseView will be returned.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="didYouMeanSuggestion">
+				<xs:annotation>
+					<xs:documentation>Short value: "dm". Indicates if
+						didYouMeanSuggestions will be returned.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="matchQuality">
+				<xs:annotation>
+					<xs:documentation>Short value: "mq". Indicates if the detailed
+						match quality on attribute level will be returned along with each
+						search result.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="matchType">
+				<xs:annotation>
+					<xs:documentation>Short value: "mt". Indicates if the match type
+						will be returned along with each search result.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="matchCode">
+				<xs:annotation>
+					<xs:documentation>Short value: "mc". Indicates if the match code
+						will be returned along with each search result.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="parsedRequest">
+				<xs:annotation>
+					<xs:documentation>Short value: "pr". Indicates if the parsed
+						request will be returned along with each search result.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PlaceAttributeType">
+		<xs:annotation>
+			<xs:documentation>This is an enumeration type which lists available
+				PlaceType attributes. They can be used to switch individual
+				attributes on/off in search results.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="categories">
+				<xs:annotation>
+					<xs:documentation>Short value: "ca". </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="location">
+				<xs:annotation>
+					<xs:documentation>Short value: "lo". </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="supplier">
+				<xs:annotation>
+					<xs:documentation>Short value: "sp". </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="contact">
+				<xs:annotation>
+					<xs:documentation>Short value: "co".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="additionalData">
+				<xs:annotation>
+					<xs:documentation>Short value: "ad". </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="alternativeNames">
+				<xs:annotation>
+					<xs:documentation>Short value: "an". </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LocationAttributeType">
+		<xs:annotation>
+			<xs:documentation>This is an enumeration type which lists available
+				LocationType attributes. They can be used to switch individual
+				attributes on/off in search results.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="address">
+				<xs:annotation>
+					<xs:documentation>Short value: "ar".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="mapReference">
+				<xs:annotation>
+					<xs:documentation>Short value: "mr".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="mapView">
+				<xs:annotation>
+					<xs:documentation>Short value: "mv".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="additionalData">
+				<xs:annotation>
+					<xs:documentation>Short value: "ad".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="alternativeLabels">
+				<xs:annotation>
+					<xs:documentation>Short value: "al".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="shape">
+				<xs:annotation>
+					<xs:documentation>Short value: "sh".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="adminIds">
+				<xs:annotation>
+					<xs:documentation>Short value: "ai".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="addressDetails">
+				<xs:annotation>
+					<xs:documentation>Short value: "dt".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="streetDetails">
+				<xs:annotation>
+					<xs:documentation>Short value: "sd".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="linkInfo">
+				<xs:annotation>
+					<xs:documentation>Short value: "li".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="adminInfo">
+				<xs:annotation>
+					<xs:documentation>Short value: "in".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="addressNames">
+				<xs:annotation>
+					<xs:documentation>Short value: "nm".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="addressNamesBilingual">
+				<xs:annotation>
+					<xs:documentation>Short value: "nb".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="timeZone">
+				<xs:annotation>
+					<xs:documentation>Short value: "tz".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="related.nearByAddress">
+				<xs:annotation>
+					<xs:documentation>Short value: "rn".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="addressNameTypes">
+				<xs:annotation>
+					<xs:documentation>Short value: "an".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AddressAttributeType">
+		<xs:annotation>
+			<xs:documentation>This is an enumeration type which lists available
+				AddressType attributes. They can be used to switch individual
+				attributes on/off in search results.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="country">
+				<xs:annotation>
+					<xs:documentation>Short value: "ctr".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="state">
+				<xs:annotation>
+					<xs:documentation>Short value: "sta".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="county">
+				<xs:annotation>
+					<xs:documentation>Short value: "cty".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="city">
+				<xs:annotation>
+					<xs:documentation>Short value: "cit".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="district">
+				<xs:annotation>
+					<xs:documentation>Short value: "dis".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="subdistrict">
+				<xs:annotation>
+					<xs:documentation>Short value: "sdi".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="street">
+				<xs:annotation>
+					<xs:documentation>Short value: "str".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="houseNumber">
+				<xs:annotation>
+					<xs:documentation>Short value: "hnr".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="postalCode">
+				<xs:annotation>
+					<xs:documentation>Short value: "pst".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="suite">
+				<xs:annotation>
+					<xs:documentation>Short value: "sui".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="floor">
+				<xs:annotation>
+					<xs:documentation>Short value: "flr".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="streetDetails">
+				<xs:annotation>
+					<xs:documentation>Short value: "std"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="localizedNames">
+				<xs:annotation>
+					<xs:documentation>Short value: "loc"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="addressLines">
+				<xs:annotation>
+					<xs:documentation>Short value: "aln"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="building">
+				<xs:annotation>
+					<xs:documentation>Short value: "bld"</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="additionalData">
+				<xs:annotation>
+					<xs:documentation>Short value: "add".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="alternativeAttributes">
+				<xs:annotation>
+					<xs:documentation>Short value: "alt".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="unit">
+				<xs:annotation>
+					<xs:documentation>Short value: "unt".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>	<!-- LocationMatchTypeType moved to LBSP-Search-Common.xsd -->
+	<xs:simpleType name="MatchCodeType">
+		<xs:annotation>
+			<xs:documentation>Indicator for the match code of a search result.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="exact"></xs:enumeration>
+			<xs:enumeration value="ambiguous"></xs:enumeration>
+			<xs:enumeration value="upHierarchy"></xs:enumeration>
+			<xs:enumeration value="ambiguousUpHierarchy"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SortingCriteriaType">
+		<xs:annotation>
+			<xs:documentation>Defines sort criteria for locations.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="distance">
+				<xs:annotation>
+					<xs:documentation>Results are sorted by distance. Closest one is
+						first.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="population">
+				<xs:annotation>
+					<xs:documentation>Results are sorted by population. Locations with
+						the highest population are first.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="size">
+				<xs:annotation>
+					<xs:documentation>Results are sorted by size. Largest one is first.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SearchType">
+		<xs:sequence>
+			<xs:element name="Request" type="SearchRequestType"
+				minOccurs="0"></xs:element>
+			<xs:element name="Response" type="SearchResponseType"
+				minOccurs="0"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Search" type="SearchType"></xs:element>
+</xs:schema>

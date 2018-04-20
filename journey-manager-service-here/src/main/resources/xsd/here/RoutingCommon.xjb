@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings version="2.1" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<jaxb:bindings schemaLocation="LBSP-Routing-Common.xsd">
+		<!-- com.sun.istack.SAXParseException2; systemId: file://journey-manager-service-here/src/main/resources/xsd/here/route-7.2/LBSP-Routing-Common.xsd; 
+			lineNumber: 1548; columnNumber: 61; Eigenschaft "Id" ist bereits definiert. 
+			Verwenden Sie &lt;jaxb:property> zur Lösung dieses Konflikts. -->
+		<!-- node="//xsd:complexType[@name='RoutingZoneType']/xsd:sequence/xsd:element[@name='Id']"> -->
+		<jaxb:bindings
+			node="//xsd:complexType[@name='PublicTransportLineType']/xsd:sequence/xsd:element[@name='id']">
+			<jaxb:property name="duplicatedId" />
+		</jaxb:bindings>
+	</jaxb:bindings>
+</jaxb:bindings>

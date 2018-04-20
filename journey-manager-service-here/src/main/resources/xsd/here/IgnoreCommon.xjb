@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings version="2.1" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<jaxb:bindings schemaLocation="LBSP-Common.xsd">
+		<jaxb:schemaBindings map="false">
+			<jaxb:package name="com.b.model" />
+		</jaxb:schemaBindings>
+	</jaxb:bindings>
+</jaxb:bindings>

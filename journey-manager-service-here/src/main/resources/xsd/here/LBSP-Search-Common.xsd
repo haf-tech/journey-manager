@@ -1,0 +1,1528 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- edited with XMLSpy v2010 rel. 
+	2 (http://www.altova.com) by Masanori Fujita (Navteq B.V.) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.navteq.com/lbsp/Search-Common/4" xmlns:common="http://www.navteq.com/lbsp/Common/4"
+	targetNamespace="http://www.navteq.com/lbsp/Search-Common/4" version="4.1">
+	<xs:import namespace="http://www.navteq.com/lbsp/Common/4"
+		schemaLocation="LBSP-Common.xsd" />
+	<xs:simpleType name="ContactTypeType">
+		<xs:annotation>
+			<xs:documentation>Communication channels</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="phone" />
+			<xs:enumeration value="email" />
+			<xs:enumeration value="URL" />
+			<xs:enumeration value="fax" />
+			<xs:enumeration value="IM" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PlaceType">
+		<xs:annotation>
+			<xs:documentation>A place refers to the semantics/usage of a
+				location, though being independent from the location itself. Places
+				cover OVI Places as well as NAVTEQ POIs.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PlaceId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Key uniquely identifying the place
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The place's descriptive name for displaying
+						purposes in the requested primary language</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AlternativeNames" type="common:AlternativeValueType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Names in different languages and/or with
+						different semantics. (see AlternativeValueType)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Category" type="CategoryType" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Categories the place belongs to. Categories of
+						different category systems can be assigned to the place. Currently
+						supported category systems are "facility" and "chain".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Contact" type="ContactType" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The place's contacts.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Suppliers" type="SupplierType"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Data suppliers of the place.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Locations" type="LocationType"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Location(s) of the place. Currently only one
+						location is returned by Search.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlaceScore" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value which indicates the quality of the
+						underlying place data. Higher values are better.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalData" type="common:KeyValuePairType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Generic key/value container to keep additional
+						attributes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Tag" type="TagType" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of tags associated with this place.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlaceRank" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the importance of the place, e.g.
+						airports with a higher throughput are more important than smaller
+						ones.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LocationType">
+		<xs:annotation>
+			<xs:documentation>The location type refers to a physical location
+				including the physical extent. A location can be referenced either
+				by LocationId or by specifying the address.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LocationId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A key uniquely identifying a physical location.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LocationType" type="LocationTypeType">
+				<xs:annotation>
+					<xs:documentation>Indicates whether the location is an area, point,
+						or line.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A name for the location. The element is not
+						populated for addresses but for landmarks like parks, lakes, etc.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Label" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A descriptive label of the location for
+						displaying purposes in the requested primary language.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DisplayPosition" type="common:GeoCoordinateType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Coordinate where map markers should be attached
+						to</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NavigationPosition" type="common:GeoCoordinateType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Coordinate to be used when using the location for
+						routing waypoints</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MapView" type="common:GeoBoundingBoxType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Bounding box which completely encloses the
+						physical extent of the location</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LocationScore" type="xs:double"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the quality of the underlying location
+						data</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdditionalData" type="common:KeyValuePairType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Generic key/value container to keep additional
+						attributes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Address" type="common:AddressType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The address associated with the location.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AddressDetails" type="AddressDetailsType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Detail information about the address associated
+						with the location.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MapReference" type="MapReferenceType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a link or a point address with
+						exact references to a map.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AlternativeLabels" type="common:AlternativeValueType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Labels in different languages and/or with
+						different semantics. (see AlternativeValueType)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Shape" type="common:GeoShapeType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Shape of the location. This is only relevant for
+						areas.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LinkInfo" type="LinkInfoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The most common map attributes of a navigable
+						link. Only available for link based locations like streets and
+						buildings.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AdminInfo" type="AdminInfoType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional information about the location's
+						administrative area covering country or state meta information
+						like the timezone or the currency used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Related" type="RelatedLocationType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of related Locations.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AddressNames" type="AddressNamesType"
+				minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Available language variants for the given
+						address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressNamesType">
+		<xs:annotation>
+			<xs:documentation>Contains available language variants for a given
+				address.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Label" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for Label
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for Country
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="State" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for State
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="County" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for County
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for City
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="District" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for District
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Subdistrict" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for Subdistrict
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Street" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for Street
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="common:LocalizedNameType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Available language variants for HouseNumber
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AddressDetailsType">
+		<xs:annotation>
+			<xs:documentation>The address details type provides additional
+				information about the address. The names for address elements are
+				listed together with the language information for this name.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CountryCode" type="common:CountryCodeType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ISO 3166-alpha-3 country code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>country name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StateCode" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>State code as common abbreviation for a state.
+						The field will not be populated if no common abbreviations are
+						supported in a country.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="State" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Includes the first subdivision level(s) below the
+						country.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="County" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Includes the second subdivision level(s) below
+						the country. Use of this field is optional if a second subdivision
+						level is not available.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Refers to the locality of the address.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="District" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Includes the subdivision level below the city.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Subdistrict" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Includes the subdivision level below the
+						district.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Street" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Street name in the requested primary language.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetDetails" type="StreetDetailsType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Street details in the requested primary language.
+						The street details split the street name into its name parts.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>House number. Depending on regional
+						characteristics, can also be house name. For API implementations
+						which do not support separate street and house number fields, this
+						field can be omitted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Postal code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Building" type="common:LocalizedNameType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Building name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StreetDetailsType">
+		<xs:annotation>
+			<xs:documentation>The Street Details type splits the street name into
+				its name parts like the base name, the street type, etc.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BaseName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Base name part of the street name. The base name
+						is a numbered route, local name, or commonly accepted name for a
+						street.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Street type part of the street name. Street Type
+						is the local municipality designator of each road, such as
+						"street", "road", "strasse", "straat", "via", or "rue de la".
+						Street Types are defined as either "preceding" or "following" the
+						Base Name and "attached" or "unattached" to the Base Name.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetTypeBefore" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Defines if the street type is before or after the
+						base name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StreetTypeAttached" type="xs:boolean"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Defines if the street type is attached or
+						unattached to the base name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Prefix" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A prefix is a directional identifier that
+						precedes, but is not included in, the base name of a road.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Suffix" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A suffix is a directional identifier that
+						follows, but is not included in, the base name of a road.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Direction" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the official directional identifiers
+						assigned to highways, typically either "North/South" or
+						"East/West"</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Language" type="common:LanguageCodeType"
+			use="optional">
+			<xs:annotation>
+				<xs:documentation>Language of the name (RFC 5646 Lanuage Tag)
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="RelatedLocationType">
+		<xs:annotation>
+			<xs:documentation>Container which stores a location related to some
+				other location.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Type" type="RelationshipEnumType">
+				<xs:annotation>
+					<xs:documentation>The type of the relationship to the associated
+						location</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchType" type="LocationMatchTypeType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates whether the location could be located
+						exactly or an interpolation was applied.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RouteDistance" type="common:DistanceType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Distance to the associated location
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Direction" type="common:HeadingType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Direction to the associated location in degrees
+						starting with 0 at true north</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Location" type="LocationType">
+				<xs:annotation>
+					<xs:documentation>Associated location</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="LocationMatchTypeType">
+		<xs:annotation>
+			<xs:documentation>Indicator for the quality of the location match.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="pointAddress">
+				<xs:annotation>
+					<xs:documentation>Location could be matched exactly as point
+						address.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="interpolated">
+				<xs:annotation>
+					<xs:documentation>Location was interpolated.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RelationshipEnumType">
+		<xs:annotation>
+			<xs:documentation>Enumeration type which lists the possible
+				relationship roles a related location can assume.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="legacyAddress">
+				<xs:annotation>
+					<xs:documentation>The associated location provides the address
+						container using a legacy address format.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="newAddress">
+				<xs:annotation>
+					<xs:documentation>The associated location provides the address
+						container using a new address format.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="nearByDistanceMarker">
+				<xs:annotation>
+					<xs:documentation>The associated location provides the location of
+						a nearby distance marker close to the search result.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="nearByAddress">
+				<xs:annotation>
+					<xs:documentation>The associated location provides the location of
+						a nearby address close to the search result.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="microPointAddress">
+				<xs:annotation>
+					<xs:documentation>The associated location provides the location of
+						a micro point address if available.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="LinkInfoType">
+		<xs:annotation>
+			<xs:documentation>Additional information about a link in the road
+				network.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FunctionalClass" type="common:FunctionalClassType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The functional class is used to classify roads
+						depending on the speed, importance and connectivity of the road.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TravelDirection" type="common:CardinalDirectionType"
+				minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Cardinal or ordinal direction for the link
+						following the direction of traffic on the street. If traffic is
+						allowed in both directions two values will be returned.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpeedCategory" type="common:SpeedCategoryType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Classifies the general speed trend of a navigable
+						link based on posted or legal speed</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SpeedLimit" type="common:SpeedLimitType"
+				minOccurs="0" maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Speed limit to set the maximum speed at which
+						road vehicles may legally travel on the road. If traffic is
+						allowed in both directions two speed limit values might be
+						returned.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LinkFlags" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Flags that describe special characteristics of
+						the link like "motorway", "tollroad", "paved", etc. (see
+						LinkFlagType enumeration for possible values).</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:list itemType="LinkFlagType" />
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AccessFlags" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Flags that describe access characteristics of the
+						link like "automobiles", "buses", "pedestrians", etc. (see
+						LinkAccessFlagType enumeration for possible values).
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:list itemType="LinkAccessFlagType" />
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="LinkFlagType">
+		<xs:annotation>
+			<xs:documentation>Defines a list of special characteristics that may
+				apply to a link.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ControlledAccess">
+				<xs:annotation>
+					<xs:documentation>Identifies roads with limited entrances and exits
+						that allow uninterrupted high speed traffic flow.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MultiDigitized">
+				<xs:annotation>
+					<xs:documentation>Indicates if the navigable link is part of a road
+						network where each driving direction is separately digitized.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Frontage">
+				<xs:annotation>
+					<xs:documentation>Indication if the navigable link is a frontage
+						road. Frontage roads are local roads that run parallel to and
+						usually contain the name(s) and addresses of a road with a higher
+						traffic flow.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Paved">
+				<xs:annotation>
+					<xs:documentation>Indication if the navigable link is paved.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Ramp">
+				<xs:annotation>
+					<xs:documentation>Indication if the navigable link represents a
+						Ramp. Ramps are connectors that provide access between roads that
+						do not cross at grade.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Private">
+				<xs:annotation>
+					<xs:documentation>Identifies roads not maintained by an
+						organization responsible for maintenance of public roads.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Tollway">
+				<xs:annotation>
+					<xs:documentation>Identifies a navigable link for which a fee must
+						be paid to use the road.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PoiAccess">
+				<xs:annotation>
+					<xs:documentation>Indication if a navigable link is a POI Access
+						Road. POI Access Roads connect Points of Interest (POIs) to the
+						road network. These roads provide the only means of entrance or
+						exit from a POI to a public road.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="FourWheelDrive">
+				<xs:annotation>
+					<xs:documentation>Indicates roads which are only suitable for
+						vehicles with four-wheel drive.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ParkingLotRoad">
+				<xs:annotation>
+					<xs:documentation>Indication if a Link is internal to a parking lot
+						area.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CarpoolRoad">
+				<xs:annotation>
+					<xs:documentation>Identifies a Link where, at specific times, all
+						lanes serve as Carpool lane.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Reversible">
+				<xs:annotation>
+					<xs:documentation>Indicates that a Link is fully reversible, which
+						implies that traffic changes direction for a specific time frame.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ExpressLane">
+				<xs:annotation>
+					<xs:documentation>Indication if the link serves as an Express Lane.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LinkAccessFlagType">
+		<xs:annotation>
+			<xs:documentation>Defines a list of access characteristics for a
+				link.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Automobiles"></xs:enumeration>
+			<xs:enumeration value="Buses"></xs:enumeration>
+			<xs:enumeration value="Taxis"></xs:enumeration>
+			<xs:enumeration value="Carpools"></xs:enumeration>
+			<xs:enumeration value="Pedestrians"></xs:enumeration>
+			<xs:enumeration value="Trucks"></xs:enumeration>
+			<xs:enumeration value="Deliveries"></xs:enumeration>
+			<xs:enumeration value="EmergencyVehicle"></xs:enumeration>
+			<xs:enumeration value="ThroughTraffic"></xs:enumeration>
+			<xs:enumeration value="Motorcycles"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AdminInfoType">
+		<xs:annotation>
+			<xs:documentation>Additional information about an administrative area
+				covering country or state meta information like the timezone or the
+				currency used.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TimeZoneOffset" type="common:UTCTimeOffsetType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>UTC Timezone offset applicable for the area.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LocalTime" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Current time based on the area's timezone.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Currency" type="common:CurrencyType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ISO 4217 currency code used in the country.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DrivingSide" type="common:DrivingSideType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Driving side for road traffic used in the
+						country.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SystemOfMeasure" type="common:SystemOfMeasurementType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>System of measure used in the country.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TimeZone" type="common:TimeZoneType"
+				minOccurs="0">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CategoryType">
+		<xs:annotation>
+			<xs:documentation>Type to assign different categories to places. To
+				support different types of categorization, a category always refers
+				to a certain category system.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CategoryId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Key uniquely identifying the category within the
+						named category system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CategorySystemId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Key uniquely identifying the category system the
+						category belongs to.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Descripitive name of the category for displaying
+						purposes.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>More exhaustive description for this category.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AlternativeNames" type="common:AlternativeValueType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Names in different languages and/or with
+						different semantics.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TagType">
+		<xs:annotation>
+			<xs:documentation>Type to assign different tags to places.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the tag for displaying purposes.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AlternativeNames" type="common:AlternativeValueType"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Names in different languages and/or with
+						different semantics.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactType">
+		<xs:annotation>
+			<xs:documentation>The ContactType encapsulates contact information
+				belonging to a Place.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Type" type="ContactTypeType">
+				<xs:annotation>
+					<xs:documentation>Type of communication channel</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Value" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Value for this communication channel (e.g. email
+						adress, phone number)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the communication channel (e.g.
+						"company's website", "phone number to be used in emergency", etc.)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SupplierType">
+		<xs:annotation>
+			<xs:documentation>Provider identification for place information. Id
+				and name are assigned by NOKIA/NAVTEQ.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="SupplierId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Key uniquely identifying the place's data
+						provider</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Descriptive name of the data provider for
+						displaying purposes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MapReferenceType">
+		<xs:annotation>
+			<xs:documentation>Reference to a network link of the location object.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ReferenceId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Key of the link</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MapId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Reference to a specific map.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MapVersion" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Full version of the map.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MapReleaseDate" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Release data of the map database used to generate
+						this response element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Spot" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Relative position of the location along the link.
+						Spot is defined as the fractional distance from the link's
+						reference-node to the non-reference node, i.e. the value range is
+						between 0 and 1. This attribute is only relevant if a link is
+						referenced.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:double">
+						<xs:minInclusive value="0" />
+						<xs:maxInclusive value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SideOfStreet" type="common:SideOfStreetType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates whether the referenced location is on
+						the left or right side of the link (if heading from the reference
+						node to the non-reference node).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CountryId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the country</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StateId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the state</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CountyId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the county</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CityId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the city</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DistrictId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the district</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlaceId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the place</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BuildingId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the building</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AddressId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifier for the point address
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="LocationTypeType">
+		<xs:annotation>
+			<xs:documentation>Values to distinguish between areas, points, and
+				lines.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="point">
+				<xs:annotation>
+					<xs:documentation>Used if location is a point.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="line">
+				<xs:annotation>
+					<xs:documentation>Used if location is a line.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="area">
+				<xs:annotation>
+					<xs:documentation>Used if location is an admin area (e.g. city,
+						country, state, county, district).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="address">
+				<xs:annotation>
+					<xs:documentation>Address (e.g. street, building, intersection).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="trail">
+				<xs:annotation>
+					<xs:documentation>Hiking and biking trails.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="park">
+				<xs:annotation>
+					<xs:documentation>National parks, city parks, etc.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="lake">
+				<xs:annotation>
+					<xs:documentation>Lakes</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="mountainPeak">
+				<xs:annotation>
+					<xs:documentation>Mountain peaks</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="volcano">
+				<xs:annotation>
+					<xs:documentation>Volcanos</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="river">
+				<xs:annotation>
+					<xs:documentation>Rivers</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="golfCourse">
+				<xs:annotation>
+					<xs:documentation>Golf courses</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="industrialComplex">
+				<xs:annotation>
+					<xs:documentation>Industrial complexes</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="island">
+				<xs:annotation>
+					<xs:documentation>Islands</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="woodland">
+				<xs:annotation>
+					<xs:documentation>Woodland</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="desert">
+				<xs:annotation>
+					<xs:documentation>Deserts</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="glacier">
+				<xs:annotation>
+					<xs:documentation>Glaciers</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="cemetery">
+				<xs:annotation>
+					<xs:documentation>Cemetaries</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="canalWaterChannel">
+				<xs:annotation>
+					<xs:documentation>Canals</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="bayHarbor">
+				<xs:annotation>
+					<xs:documentation>Bays</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="airport">
+				<xs:annotation>
+					<xs:documentation>Airports</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="hospital">
+				<xs:annotation>
+					<xs:documentation>Hospitals</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="sportsComplex">
+				<xs:annotation>
+					<xs:documentation>sports complexes</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="shoppingCentre">
+				<xs:annotation>
+					<xs:documentation>Shopping centres</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="universityCollege">
+				<xs:annotation>
+					<xs:documentation>Education institutions like colleges,
+						universities, schools, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="nativeAmericanReservation">
+				<xs:annotation>
+					<xs:documentation>Native American Reservations (only available in
+						US)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="railroad">
+				<xs:annotation>
+					<xs:documentation>Railroads</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="militaryBase">
+				<xs:annotation>
+					<xs:documentation>Military Bases</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="parkingLot">
+				<xs:annotation>
+					<xs:documentation>Parking Lots</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="parkingGarage">
+				<xs:annotation>
+					<xs:documentation>Parking Garages</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="animalPark">
+				<xs:annotation>
+					<xs:documentation>Animal Parks</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="beach">
+				<xs:annotation>
+					<xs:documentation>Beaches</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="amusementPark">
+				<xs:annotation>
+					<xs:documentation>Amusement Parks</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="historicalMonument">
+				<xs:annotation>
+					<xs:documentation>Historical Monuments</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="touristAttraction">
+				<xs:annotation>
+					<xs:documentation>Tourist Attractions</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="highwayExit">
+				<xs:annotation>
+					<xs:documentation>Highway Exits</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="skiResort">
+				<xs:annotation>
+					<xs:documentation>Ski Resorts</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="skiLift">
+				<xs:annotation>
+					<xs:documentation>Ski Lifts</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="skiRun">
+				<xs:annotation>
+					<xs:documentation>Ski Runs</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="distanceMarker">
+				<xs:annotation>
+					<xs:documentation>Distance Markers are sequentially numbered
+						markers placed along roads at regular intervals that serve as
+						reference location signs.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="businessFacility">
+				<xs:annotation>
+					<xs:documentation>business facility</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="busStation">
+				<xs:annotation>
+					<xs:documentation>bus station</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="civicCommunityCentre">
+				<xs:annotation>
+					<xs:documentation>civic community centre</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="conventionExhibitionCentre">
+				<xs:annotation>
+					<xs:documentation>convention exhibition centre</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ferryTerminal">
+				<xs:annotation>
+					<xs:documentation>ferry terminal</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="governmentOffice">
+				<xs:annotation>
+					<xs:documentation>government office</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="higherEducation">
+				<xs:annotation>
+					<xs:documentation>higher education</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="hotel">
+				<xs:annotation>
+					<xs:documentation>hotel</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="museum">
+				<xs:annotation>
+					<xs:documentation>museum</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="performingArts">
+				<xs:annotation>
+					<xs:documentation>performing arts</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="placeOfWorship">
+				<xs:annotation>
+					<xs:documentation>place of worship</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="shopping">
+				<xs:annotation>
+					<xs:documentation>shopping</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="sportsCentre">
+				<xs:annotation>
+					<xs:documentation>sports centre</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AddressMatchLevelType">
+		<xs:annotation>
+			<xs:documentation>Indicator for the match level of an address.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="country" />
+			<xs:enumeration value="state" />
+			<xs:enumeration value="county" />
+			<xs:enumeration value="city" />
+			<xs:enumeration value="district" />
+			<xs:enumeration value="street" />
+			<xs:enumeration value="intersection" />
+			<xs:enumeration value="houseNumber" />
+			<xs:enumeration value="postalCode" />
+			<xs:enumeration value="suite" />
+			<xs:enumeration value="floor" />
+			<xs:enumeration value="landmark" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReverseGeocodeModeType">
+		<xs:annotation>
+			<xs:documentation>This enumeration type is used to select the reverse
+				geocoding mode.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="retrieveAddresses">
+				<xs:annotation>
+					<xs:documentation>Retrieve addresses near the specified terminal
+						position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="retrieveAreas">
+				<xs:annotation>
+					<xs:documentation>Retrieve area around the specified terminal
+						position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="retrieveLandmarks">
+				<xs:annotation>
+					<xs:documentation>Retrieve landmarks near the specified terminal
+						position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="retrieveAll">
+				<xs:annotation>
+					<xs:documentation>Retrieve all location types (addresses, areas and
+						landmarks) near the specified terminal position.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="trackPosition">
+				<xs:annotation>
+					<xs:documentation>Finds the best address matches for the specified
+						GPS position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="retrieveAddress">
+				<xs:annotation>
+					<xs:documentation>Finds the closest address for a position.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="retrieveLocation">
+				<xs:annotation>
+					<xs:documentation>Finds the most relevant location for a position.
+						Could be either an address, an area or a landmark.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PlaceFilterType">
+		<xs:annotation>
+			<xs:documentation>Filter type to match search results to certain
+				place values.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PlaceId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Key uniquely identifying the place
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The place's descriptive name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PlaceScore" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The minimum quality of the underlying place data
+						required.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SupplierId" type="xs:string" minOccurs="0"
+				maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>List of supplier IDs whose places to seek in
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CategoryFilter" type="CategoryFilterType"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="ContactFilter" type="ContactFilterType"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LocationFilterType">
+		<xs:annotation>
+			<xs:documentation>Filter type to match search results to certain
+				address values or exactly referencing the location by ID.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LocationId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A key uniquely identifying a physical location.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Country" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Country the address is located in. Multiple
+						countries, separated by a comma, may be specified either using the
+						country code (3 bytes, ISO 3166-1-alpha-3) or the country name.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="State" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Includes the first subdivision level(s) below the
+						country. For GDF, a country-wise mapping is required. (e.g. US:
+						State, DE: Bundesland)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="County" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Includes the second subdivision level(s) below
+						the country. Use of this field is optional if a second subdivision
+						level is not available. (e.g. US: County, DE: Kreis)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="City" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Refers to the locality of the address. For GDF, a
+						country-wise mapping is required. (e.g. US: City, DE: Gemeinde),
+						can also be an alternate administrative name (e.g. "Paris" for
+						Charles-de-Gaulle airport, which is actually located in
+						Roissy-en-France)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="District" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Includes the subdivision level below the city.
+						Use of this field is optional if a second subdivision level is not
+						available. (US: n/a, DE: Ortsteil)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Street" type="xs:string" minOccurs="0"
+				maxOccurs="2">
+				<xs:annotation>
+					<xs:documentation>Street name in the requested primary language.
+						When searching for a street intersection two formats are
+						supported: either using a street array representation (first
+						street), (second street) or concatenating the two streets using
+						one of the predefined separators (and, at, &amp; or &amp;), e.g.
+						(first street) at (second street). The street name can include
+						suite, apt and floor information.					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HouseNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>House number. Depending on regional
+						characteristics, can also be house name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Postal code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MatchLevel" type="AddressMatchLevelType"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Target match level of the search result. This is
+						a soft filter allowing up hierarchy fallbacks.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BuildingId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A key uniquely identifying a building.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactFilterType">
+		<xs:annotation>
+			<xs:documentation>Filter type to narrow the search scope by contact
+				information.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Phone" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>phone number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Email" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>email address</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="URL" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>URL to place's web site</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Fax" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>fax number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IM" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Instant messaging account</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CategoryFilterType">
+		<xs:annotation>
+			<xs:documentation>Filter type to match search results to certain
+				categories</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CategorySystemId" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Key uniquely identifying the category system the
+						category belongs to</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CategoryId" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Key uniquely identifying the category within the
+						named category system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Keywords and fractions of the category name to
+						search for</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
